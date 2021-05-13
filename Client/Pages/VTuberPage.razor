@@ -1,0 +1,36 @@
+﻿@page "/VTuberPage"
+@using BlazorBackendTry.Shared
+@inject HttpClient Http
+
+<h3>VTuberPage</h3>
+
+@if (vtubers == null) {
+    <p><em>Loading...</em></p>
+} else {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vtuber in vtubers) {
+                <tr>
+                    <td>@vtuber.Name</td>
+                    <td>@vtuber.Type</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private VTuber[] vtubers;
+
+    protected override async Task OnInitializedAsync() {
+        //ここフロントエンド
+        vtubers = await Http.GetFromJsonAsync<VTuber[]>("VTuber");
+    }
+
+}
